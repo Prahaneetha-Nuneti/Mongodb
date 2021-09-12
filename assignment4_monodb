@@ -1,0 +1,102 @@
+ Find all the company drives which appeared between 15 oct-2020 and 31-oct-2020
+ 
+ >db.company_drive.insertMany([{"c_id":"1", "c_name":"tcs","date":new ISODate("2021-10-15")}, {"c_id":"2","c_name":"dxc","date":new ISODate("2021-09-24")}, {"c_id":"3","c_name":"chubb","date":new ISODate("2021-10-18")}, {"c_id":"4","c_name":"cognizant","date":new ISODate("2021-09-12")}, {"c_id":"5","c_name":"accenture","date":new ISODate("2021-10-10")}]);
+ {
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("613dd90d67f1b4e6981a512b"),
+                ObjectId("613dd90d67f1b4e6981a512c"),
+                ObjectId("613dd90d67f1b4e6981a512d"),
+                ObjectId("613dd90d67f1b4e6981a512e"),
+                ObjectId("613dd90d67f1b4e6981a512f")
+				]
+ >db.company_drive.find({"date":{$gt:new Date("2021-10-15"),$lt:new Date("2021-10-31")}});
+{ "_id" : ObjectId("613dd90d67f1b4e6981a512d"), "c_id" : "3", "c_name" : "chubb", "date" : ISODate("2021-10-18T00:00:00Z") }
+ 
+ 
+ Find the number of problems solved by the user in codekata
+ 
+ >db.codekata.insertMany([{"s_id":"1","solved":"30"},{"s_id":"2","solved":"80"},{"s_id":"3","solved":"5"}]);
+  db.codekata.find({});
+{ "_id" : ObjectId("613df86267f1b4e6981a5131"), "s_id" : "1", "solved" : "30" }
+{ "_id" : ObjectId("613df86267f1b4e6981a5132"), "s_id" : "2", "solved" : "80" }
+{ "_id" : ObjectId("613df86267f1b4e6981a5133"), "s_id" : "3", "solved" : "5" }
+
+
+Find all the topics and tasks which are thought in the month of October
+
+> db.topics.insertMany([{"topic":"java","date":new ISODate("2021-10-26")},{"topic":"python","date":new ISODate("2021-09-25")},{"topic":"CN","date":new ISODate("2021-10-17")}]);
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("613e07fc67f1b4e6981a513a"),
+                ObjectId("613e07fc67f1b4e6981a513b"),
+                ObjectId("613e07fc67f1b4e6981a513c")
+        ]
+}
+> db.topics.find({"date":{$gte:new Date("2021-10-1"),$lte:new Date("2021-10-31")}},{"topic":1});
+{ "_id" : ObjectId("613e07fc67f1b4e6981a513a"), "topic" : "java" }
+{ "_id" : ObjectId("613e07fc67f1b4e6981a513c"), "topic" : "CN" }
+
+
+Find all the mentors with who has the mentee's count more than 15
+
+> db.mentors.insertMany([{"mentor":"SRK","mentee_count":"12"},{"mentor":"SNR","mentee_count":"21"},{"mentor":"Vijay","mentee_count":"65"},{"mentor":"Ashmitha","mentee_count":"24"},{"mentor":"Preethi","mentee_count":"6"}]);
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("613e0b5267f1b4e6981a513d"),
+                ObjectId("613e0b5267f1b4e6981a513e"),
+                ObjectId("613e0b5267f1b4e6981a513f"),
+                ObjectId("613e0b5267f1b4e6981a5140"),
+                ObjectId("613e0b5267f1b4e6981a5141")
+        ]
+}
+> db.mentors.find({"mentee_count":{$gt:"15"}});
+{ "_id" : ObjectId("613e0b5267f1b4e6981a513e"), "mentor" : "SNR", "mentee_count" : "21" }
+{ "_id" : ObjectId("613e0b5267f1b4e6981a513f"), "mentor" : "Vijay", "mentee_count" : "65" }
+{ "_id" : ObjectId("613e0b5267f1b4e6981a5140"), "mentor" : "Ashmitha", "mentee_count" : "24" }
+{ "_id" : ObjectId("613e0b5267f1b4e6981a5141"), "mentor" : "Preethi", "mentee_count" : "6" }
+
+
+Find the number of users who are absent and task is not submitted  between 15 oct-2020 and 31-oct-2020
+
+> db.user.insertMany([{"name":"prahaneetha","absent":["2021-10-08","2021-10-21","2021-09-14"],"task_date":new ISODate("2021-10-05")}
+,{"name":"rasagna","absent":["2021-09-27","2021-10-15"],"task_date":new ISODate("2021-09-28")},
+{"name":"bindu","absent":["2021-10-01"],"task_date":new ISODate("2021-10-29")}]);
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("613e14cb67f1b4e6981a5142"),
+                ObjectId("613e14cc67f1b4e6981a5143"),
+                ObjectId("613e14cc67f1b4e6981a5144")
+        ]
+}
+{
+        "_id" : ObjectId("613e14cb67f1b4e6981a5142"),
+        "name" : "prahaneetha",
+        "absent" : [
+                "2021-10-08",
+                "2021-10-21",
+                "2021-09-14"
+        ],
+        "task_date" : ISODate("2021-10-05T00:00:00Z")
+}
+{
+        "_id" : ObjectId("613e14cc67f1b4e6981a5143"),
+        "name" : "rasagna",
+        "absent" : [
+                "2021-09-27",
+                "2021-10-15"
+        ],
+        "task_date" : ISODate("2021-09-28T00:00:00Z")
+}
+{
+        "_id" : ObjectId("613e14cc67f1b4e6981a5144"),
+        "name" : "bindu",
+        "absent" : [
+                "2021-10-01"
+        ],
+        "task_date" : ISODate("2021-10-29T00:00:00Z")
+}
+						
