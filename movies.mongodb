@@ -1,0 +1,690 @@
+@(shell):65:1
+> db.movie.insertMany( [
+{"title":"robo 2.o",     
+"genre":["sci-fi","action"],  
+   "languages":["telugu","tamil","hindi"],
+   "media":["graphics","musics","videos"],  
+   "stats":{  "budget":200,  "box-office":250      },   
+   "cast":[ {  "artist_name":"rajini",  "role":["chitti","vasikar"], 
+   "skills":["dance","acting"]  },
+   {  "artist_name":"aishwarya",  "role":"sana",  "skills":["acting","singing"]  }    
+   ]  
+   },
+  {"title":"Avengers",    
+  "genre":["sci-fi","action","drama"],
+  "languages":["telugu","tamil","hindi","english"], 
+  "media":["graphics","images"], 
+  "stats":{  "budget":500,  "box-office":2500      },    
+  "cast":[ {  "artist_name":"ChrisEvans",  "role":["captain_america"],  
+  "skills":["singing","acting"]  },  {  "artist_name":"robert",
+  "role":"tony_stark",  "skills":["acting","comedy"]  }   
+  ] 
+  },
+  {"title":"Baahbali",    
+  "genre":["sci-fi","action","thriller"],     
+  "languages":["telugu","tamil","hindi","kannada"], 
+  "media":["music","graphics"],   
+  "stats":{  "budget":300,  "box-office":3000      }, 
+  "cast":[ {  "artist_name":"prabhas",  
+  "role":["amarendra_bahubali","mahendra_bahubali"],
+  "skills":["dance","acting"]  }, 
+  {  "artist_name":"rana",
+  "role":"ballala",  
+  "skills":["acting","dancing"]  }, 
+  {"artist_name":"Anuskha",  
+      "role":"Devasena",  
+  "skills":["dancing","singing","acting"]}     ] 
+  } 
+  ]);
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("613f3a66e13d414b849491f0"),
+                ObjectId("613f3a66e13d414b849491f1"),
+                ObjectId("613f3a66e13d414b849491f2")
+        ]
+}
+> db.user_review.insertMany([
+... {
+... "user1":"prahaneetha",
+... "movie":[{
+... "movie_name":"robo 2.o",
+... "rating":8.5
+... },
+... {
+... "movie_name":"Avengers",
+... "rating":9.2
+... },
+... {
+... "movie_name":"Baahbali",
+... "rating":9.5
+... }]
+... },
+... {
+... "user1":"Akanksha",
+... "movie":[{
+... "movie_name":"robo 2.o",
+... "rating":9
+... },
+... {
+... "movie_name":"Avengers",
+... "rating":8
+... },
+... {
+... "movie_name":"Baahbali",
+... "rating":9
+... }]
+... },
+... {
+... "user1":"Harini",
+... "movie":[{
+... "movie_name":"robo 2.o",
+... "rating":7
+... },
+... {
+... "movie_name":"Avengers",
+... "rating":8.5
+... },
+... {
+... "movie_name":"Baahbali",
+... "rating":9
+... }]
+... }]);
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("613f27dfe13d414b849491ed"),
+                ObjectId("613f27dfe13d414b849491ee"),
+                ObjectId("613f27dfe13d414b849491ef")
+        ]
+}
+
+
+3.List all cast along with roles and artist of a particular film
+> db.movie.find({"title":"Avengers"},{"cast":1,"artist":1}).pretty();
+{
+        "_id" : ObjectId("613f3a66e13d414b849491f1"),
+        "cast" : [
+                {
+                        "artist_name" : "ChrisEvans",
+                        "role" : [
+                                "captain_america"
+                        ],
+                        "skills" : [
+                                "singing",
+                                "acting"
+                        ]
+                },
+                {
+                        "artist_name" : "robert",
+                        "role" : "tony_stark",
+                        "skills" : [
+                                "acting",
+                                "comedy"
+                        ]
+                }
+        ]
+}
+
+4.List all the reviews given by particular user
+> db.user_review.find({"user1":"Harini"}).pretty();
+{
+        "_id" : ObjectId("613f27dfe13d414b849491ef"),
+        "user1" : "Harini",
+        "movie" : [
+                {
+                        "movie_name" : "robo 2.o",
+                        "rating" : 7
+                },
+                {
+                        "movie_name" : "Avengers",
+                        "rating" : 8.5
+                },
+                {
+                        "movie_name" : "Baahbali",
+                        "rating" : 9
+                }
+        ]
+}
+
+6.List all the roles performed by particular artist
+
+> db.movie.find({"cast.artist_name":"rajini"},{"cast":1}).pretty();
+
+{
+        "_id" : ObjectId("613f3a66e13d414b849491f0"),
+        "cast" : [
+                {
+                        "artist_name" : "rajini",
+                        "role" : [
+                                "chitti",
+                                "vasikar"
+                        ],
+                        "skills" : [
+                                "dance",
+                                "acting"
+                        ]
+                },
+                {
+                        "artist_name" : "aishwarya",
+                        "role" : "sana",
+                        "skills" : [
+                                "acting",
+                                "singing"
+                        ]
+                }
+        ]
+}
+
+1.List all media of a particualr film
+
+> db.movie.find({"title":"Baahbali"},{"media":1}).pretty();
+{
+        "_id" : ObjectId("613f3a66e13d414b849491f2"),
+        "media" : [
+                "music",
+                "graphics"
+        ]
+}
+
+5.List all the skills of a particular Artist
+> db.movie.find({"cast.artist_name":"ChrisEvans"},{"cast.skills":1}).pretty();
+{
+        "_id" : ObjectId("613f3a66e13d414b849491f1"),
+        "cast" : [
+                {
+                        "skills" : [
+                                "singing",
+                                "acting"
+                        ]
+                },
+                {
+                        "skills" : [
+                                "acting",
+                                "comedy"
+                        ]
+                }
+        ]
+}
+
+2.list media and reviews of a particular film:
+ db.user_review.aggregate([{"$match":{"movie.movie_name":"robo 2.o"}},{$lookup:{from:"movie",localField:"title",foreignField:"movie.movie_name",as:"movie_user"}}]).pretty();
+{
+        "_id" : ObjectId("613f27dfe13d414b849491ed"),
+        "user1" : "prahaneetha",
+        "movie" : [
+                {
+                        "movie_name" : "robo 2.o",
+                        "rating" : 8.5
+                },
+                {
+                        "movie_name" : "Avengers",
+                        "rating" : 9.2
+                },
+                {
+                        "movie_name" : "Baahbali",
+                        "rating" : 9.5
+                }
+        ],
+        "movie_user" : [
+                {
+                        "_id" : ObjectId("613f3a66e13d414b849491f0"),
+                        "title" : "robo 2.o",
+                        "genre" : [
+                                "sci-fi",
+                                "action"
+                        ],
+                        "languages" : [
+                                "telugu",
+                                "tamil",
+                                "hindi"
+                        ],
+                        "media" : [
+                                "graphics",
+                                "musics",
+                                "videos"
+                        ],
+                        "stats" : {
+                                "budget" : 200,
+                                "box-office" : 250
+                        },
+                        "cast" : [
+                                {
+                                        "artist_name" : "rajini",
+                                        "role" : [
+                                                "chitti",
+                                                "vasikar"
+                                        ],
+                                        "skills" : [
+                                                "dance",
+                                                "acting"
+                                        ]
+                                },
+                                {
+                                        "artist_name" : "aishwarya",
+                                        "role" : "sana",
+                                        "skills" : [
+                                                "acting",
+                                                "singing"
+                                        ]
+                                }
+                        ]
+                },
+                {
+                        "_id" : ObjectId("613f3a66e13d414b849491f1"),
+                        "title" : "Avengers",
+                        "genre" : [
+                                "sci-fi",
+                                "action",
+                                "drama"
+                        ],
+                        "languages" : [
+                                "telugu",
+                                "tamil",
+                                "hindi",
+                                "english"
+                        ],
+                        "media" : [
+                                "graphics",
+                                "images"
+                        ],
+                        "stats" : {
+                                "budget" : 500,
+                                "box-office" : 2500
+                        },
+                        "cast" : [
+                                {
+                                        "artist_name" : "ChrisEvans",
+                                        "role" : [
+                                                "captain_america"
+                                        ],
+                                        "skills" : [
+                                                "singing",
+                                                "acting"
+                                        ]
+                                },
+                                {
+                                        "artist_name" : "robert",
+                                        "role" : "tony_stark",
+                                        "skills" : [
+                                                "acting",
+                                                "comedy"
+                                        ]
+                                }
+                        ]
+                },
+                {
+                        "_id" : ObjectId("613f3a66e13d414b849491f2"),
+                        "title" : "Baahbali",
+                        "genre" : [
+                                "sci-fi",
+                                "action",
+                                "thriller"
+                        ],
+                        "languages" : [
+                                "telugu",
+                                "tamil",
+                                "hindi",
+                                "kannada"
+                        ],
+                        "media" : [
+                                "music",
+                                "graphics"
+                        ],
+                        "stats" : {
+                                "budget" : 300,
+                                "box-office" : 3000
+                        },
+                        "cast" : [
+                                {
+                                        "artist_name" : "prabhas",
+                                        "role" : [
+                                                "amarendra_bahubali",
+                                                "mahendra_bahubali"
+                                        ],
+                                        "skills" : [
+                                                "dance",
+                                                "acting"
+                                        ]
+                                },
+                                {
+                                        "artist_name" : "rana",
+                                        "role" : "ballala",
+                                        "skills" : [
+                                                "acting",
+                                                "dancing"
+                                        ]
+                                },
+                                {
+                                        "artist_name" : "Anuskha",
+                                        "role" : "Devasena",
+                                        "skills" : [
+                                                "dancing",
+                                                "singing",
+                                                "acting"
+                                        ]
+                                }
+                        ]
+                }
+        ]
+}
+{
+        "_id" : ObjectId("613f27dfe13d414b849491ee"),
+        "user1" : "Akanksha",
+        "movie" : [
+                {
+                        "movie_name" : "robo 2.o",
+                        "rating" : 9
+                },
+                {
+                        "movie_name" : "Avengers",
+                        "rating" : 8
+                },
+                {
+                        "movie_name" : "Baahbali",
+                        "rating" : 9
+                }
+        ],
+        "movie_user" : [
+                {
+                        "_id" : ObjectId("613f3a66e13d414b849491f0"),
+                        "title" : "robo 2.o",
+                        "genre" : [
+                                "sci-fi",
+                                "action"
+                        ],
+                        "languages" : [
+                                "telugu",
+                                "tamil",
+                                "hindi"
+                        ],
+                        "media" : [
+                                "graphics",
+                                "musics",
+                                "videos"
+                        ],
+                        "stats" : {
+                                "budget" : 200,
+                                "box-office" : 250
+                        },
+                        "cast" : [
+                                {
+                                        "artist_name" : "rajini",
+                                        "role" : [
+                                                "chitti",
+                                                "vasikar"
+                                        ],
+                                        "skills" : [
+                                                "dance",
+                                                "acting"
+                                        ]
+                                },
+                                {
+                                        "artist_name" : "aishwarya",
+                                        "role" : "sana",
+                                        "skills" : [
+                                                "acting",
+                                                "singing"
+                                        ]
+                                }
+                        ]
+                },
+                {
+                        "_id" : ObjectId("613f3a66e13d414b849491f1"),
+                        "title" : "Avengers",
+                        "genre" : [
+                                "sci-fi",
+                                "action",
+                                "drama"
+                        ],
+                        "languages" : [
+                                "telugu",
+                                "tamil",
+                                "hindi",
+                                "english"
+                        ],
+                        "media" : [
+                                "graphics",
+                                "images"
+                        ],
+                        "stats" : {
+                                "budget" : 500,
+                                "box-office" : 2500
+                        },
+                        "cast" : [
+                                {
+                                        "artist_name" : "ChrisEvans",
+                                        "role" : [
+                                                "captain_america"
+                                        ],
+                                        "skills" : [
+                                                "singing",
+                                                "acting"
+                                        ]
+                                },
+                                {
+                                        "artist_name" : "robert",
+                                        "role" : "tony_stark",
+                                        "skills" : [
+                                                "acting",
+                                                "comedy"
+                                        ]
+                                }
+                        ]
+                },
+                {
+                        "_id" : ObjectId("613f3a66e13d414b849491f2"),
+                        "title" : "Baahbali",
+                        "genre" : [
+                                "sci-fi",
+                                "action",
+                                "thriller"
+                        ],
+                        "languages" : [
+                                "telugu",
+                                "tamil",
+                                "hindi",
+                                "kannada"
+                        ],
+                        "media" : [
+                                "music",
+                                "graphics"
+                        ],
+                        "stats" : {
+                                "budget" : 300,
+                                "box-office" : 3000
+                        },
+                        "cast" : [
+                                {
+                                        "artist_name" : "prabhas",
+                                        "role" : [
+                                                "amarendra_bahubali",
+                                                "mahendra_bahubali"
+                                        ],
+                                        "skills" : [
+                                                "dance",
+                                                "acting"
+                                        ]
+                                },
+                                {
+                                        "artist_name" : "rana",
+                                        "role" : "ballala",
+                                        "skills" : [
+                                                "acting",
+                                                "dancing"
+                                        ]
+                                },
+                                {
+                                        "artist_name" : "Anuskha",
+                                        "role" : "Devasena",
+                                        "skills" : [
+                                                "dancing",
+                                                "singing",
+                                                "acting"
+                                        ]
+                                }
+                        ]
+                }
+        ]
+}
+{
+        "_id" : ObjectId("613f27dfe13d414b849491ef"),
+        "user1" : "Harini",
+        "movie" : [
+                {
+                        "movie_name" : "robo 2.o",
+                        "rating" : 7
+                },
+                {
+                        "movie_name" : "Avengers",
+                        "rating" : 8.5
+                },
+                {
+                        "movie_name" : "Baahbali",
+                        "rating" : 9
+                }
+        ],
+        "movie_user" : [
+                {
+                        "_id" : ObjectId("613f3a66e13d414b849491f0"),
+                        "title" : "robo 2.o",
+                        "genre" : [
+                                "sci-fi",
+                                "action"
+                        ],
+                        "languages" : [
+                                "telugu",
+                                "tamil",
+                                "hindi"
+                        ],
+                        "media" : [
+                                "graphics",
+                                "musics",
+                                "videos"
+                        ],
+                        "stats" : {
+                                "budget" : 200,
+                                "box-office" : 250
+                        },
+                        "cast" : [
+                                {
+                                        "artist_name" : "rajini",
+                                        "role" : [
+                                                "chitti",
+                                                "vasikar"
+                                        ],
+                                        "skills" : [
+                                                "dance",
+                                                "acting"
+                                        ]
+                                },
+                                {
+                                        "artist_name" : "aishwarya",
+                                        "role" : "sana",
+                                        "skills" : [
+                                                "acting",
+                                                "singing"
+                                        ]
+                                }
+                        ]
+                },
+                {
+                        "_id" : ObjectId("613f3a66e13d414b849491f1"),
+                        "title" : "Avengers",
+                        "genre" : [
+                                "sci-fi",
+                                "action",
+                                "drama"
+                        ],
+                        "languages" : [
+                                "telugu",
+                                "tamil",
+                                "hindi",
+                                "english"
+                        ],
+                        "media" : [
+                                "graphics",
+                                "images"
+                        ],
+                        "stats" : {
+                                "budget" : 500,
+                                "box-office" : 2500
+                        },
+                        "cast" : [
+                                {
+                                        "artist_name" : "ChrisEvans",
+                                        "role" : [
+                                                "captain_america"
+                                        ],
+                                        "skills" : [
+                                                "singing",
+                                                "acting"
+                                        ]
+                                },
+                                {
+                                        "artist_name" : "robert",
+                                        "role" : "tony_stark",
+                                        "skills" : [
+                                                "acting",
+                                                "comedy"
+                                        ]
+                                }
+                        ]
+                },
+                {
+                        "_id" : ObjectId("613f3a66e13d414b849491f2"),
+                        "title" : "Baahbali",
+                        "genre" : [
+                                "sci-fi",
+                                "action",
+                                "thriller"
+                        ],
+                        "languages" : [
+                                "telugu",
+                                "tamil",
+                                "hindi",
+                                "kannada"
+                        ],
+                        "media" : [
+                                "music",
+                                "graphics"
+                        ],
+                        "stats" : {
+                                "budget" : 300,
+                                "box-office" : 3000
+                        },
+                        "cast" : [
+                                {
+                                        "artist_name" : "prabhas",
+                                        "role" : [
+                                                "amarendra_bahubali",
+                                                "mahendra_bahubali"
+                                        ],
+                                        "skills" : [
+                                                "dance",
+                                                "acting"
+                                        ]
+                                },
+                                {
+                                        "artist_name" : "rana",
+                                        "role" : "ballala",
+                                        "skills" : [
+                                                "acting",
+                                                "dancing"
+                                        ]
+                                },
+                                {
+                                        "artist_name" : "Anuskha",
+                                        "role" : "Devasena",
+                                        "skills" : [
+                                                "dancing",
+                                                "singing",
+                                                "acting"
+                                        ]
+                                }
+                        ]
+                }
+        ]
+}
+
+
